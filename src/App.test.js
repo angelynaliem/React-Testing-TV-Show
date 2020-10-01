@@ -47,8 +47,11 @@ console.log("Dropdown button ", button);
    const { getByText, findByText } = render(<Dropdown/>);
 
    const button = getByText(/select.../i);
+   // Act 
 
    fireEvent.click(button);
+
+   // Assert 
    await wait();
    expect(findByText(/season 1/i));
 
