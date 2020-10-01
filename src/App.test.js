@@ -1,6 +1,7 @@
 import React from "react";
 import App from "./App";
 import Dropdown from "react-dropdown";
+import parse from "html-react-parser";
 import { render, screen, findByText, getByRole, getAllByTestId, getByAltText, wait, getByTestId, fireEvent, queryAllByTestId, getByText, findAllByPlaceholderText, findAllByRole, waitFor, findByRole, getByPlaceholderText, findAllByTestId} from "@testing-library/react";
 
 import { fetchShow as mockFetchShow } from "./api/fetchShow";
@@ -16,26 +17,16 @@ mockFetchShow.mockResolvedValueOnce(data);
 
 const { getByRole, findByText } = render(<App/>);
 
-// Act 
+// Act & Assert 
 await findByText(/fetching data/i);
 const image = getByRole("img", {Name: /stranger things/i});
-expect(image).toBeInTheDocument();
+await expect(image).toBeInTheDocument();
 
 const title = getByRole("heading", {Name: /stranger things/i});
-expect(title).toBeInTheDocument();
+await expect(title).toBeInTheDocument();
 
 const summary = findByText("<p>A love letter to the '80s classics that captivated a generation, <b>Stranger Things</b> is set in 1983 Indiana, where a young boy vanishes into thin air. As friends, family and local police search for answers, they are drawn into an extraordinary mystery involving top-secret government experiments, terrifying supernatural forces and one very strange little girl.</p>")
-
-const button = findByText(/select a season/i);
-console.log("Dropdown button ", button);
-// fireEvent.change(button);
-
-// const dropDown = findAllByTestId(/dropdown/i)
-
-// await wait();
-// expect(dropDown).toBeInTheDocument();
-// console.log("DROPDOWN ", dropDown)
-
+// await expect(summary).toBeInTheDocument();
 
  });
 
@@ -47,65 +38,20 @@ console.log("Dropdown button ", button);
    const { getByText, findByText } = render(<Dropdown/>);
 
    const button = getByText(/select.../i);
+   
    // Act 
-
    fireEvent.click(button);
 
    // Assert 
-   await wait();
-   expect(findByText(/season 1/i));
+   await waitFor(() => {
+      expect(findByText(/season 1/i));
+      console.log("SEASON ONE ", findByText(/season 1/i))
+
+   });
+ 
 
  });
 
-
-
-
-// const buttonOne = findByText(/season 1/i);
-// expect(buttonOne).toBeInTheDocument();
-// console.log("BUTTON ONE ", buttonOne);
-
-// fireEvent.click(buttonOne);
-
-
-// const button = getByPlaceholderText(/select an option/i);
-// console.log(button);
-
-// fireEvent.click(button);
-// await findByText(/)
-
-
-
-   //   const renderResult = render(
-   //    <Dropdown
-   //    data-testid="dropdown"
-   //    options={Object.keys(seasons)}
-   //    onChange={handleSelect}
-   //    value={selectedSeason || "Select a season"}
-   //    placeholder="Select an option"
-   //  />
-   //   );
-   // expect(resultadoDoRender.getByText(/season 1/i)).toBeInTheDocument();
-   // });
-
-// Act
-
-
-//     // Act: click the "Get Data" button
-//     fireEvent.click(button);
-//     await findByText(/we are fetching data/i);
-
-//     // Assert
-//     // Component waits for api, then render that is returned
-//     // use the waitFor function to wait for the API call to resolve    
-//     await waitFor(() => {
-//         expect(getAllByTestId(/mission/i)).toHaveLength(3);
-//     })
-
-//     // could also do:
-//     // await wait();
-//     // expect(getAllByTestId(/mission/i)).toHaveLength(3);
-
-// });
 
 const data = {
     "id":2993,
