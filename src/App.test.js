@@ -1,6 +1,6 @@
 import React from "react";
 import App from "./App";
-import { render, findByText, getByRole, getAllByTestId, getByAltText } from "@testing-library/react";
+import { render, screen, findByText, getByRole, getAllByTestId, getByAltText, wait, getByTestId, fireEvent, queryAllByTestId, getByText, findAllByPlaceholderText, findAllByRole, waitFor, findByRole} from "@testing-library/react";
 
 import { fetchShow as mockFetchShow } from "./api/fetchShow";
 
@@ -13,12 +13,34 @@ mockFetchShow.mockResolvedValueOnce(data);
 
 // console.log("Mock Fetch Show HERE ", mockFetchShow);
 
-const { getByRole, findByText, getAllByTestId, getByAltText } = render(<App/>);
+const { getByRole, findByText, toBeInTheDocument, queryAllByTestId, getAllByTestId, getByAltText, findByRole } = render(<App/>);
 
 // Act 
 await findByText(/fetching data/i);
 const image = getByRole("img", {Name: /stranger things/i});
 expect(image).toBeInTheDocument();
+
+const button = getByRole("button", {value: /select a season/i});
+console.log(button);
+
+fireEvent.click(button);
+
+
+
+   //   const renderResult = render(
+   //    <Dropdown
+   //    data-testid="dropdown"
+   //    options={Object.keys(seasons)}
+   //    onChange={handleSelect}
+   //    value={selectedSeason || "Select a season"}
+   //    placeholder="Select an option"
+   //  />
+   //   );
+   // expect(resultadoDoRender.getByText(/season 1/i)).toBeInTheDocument();
+   // });
+
+
+
 
 
 
